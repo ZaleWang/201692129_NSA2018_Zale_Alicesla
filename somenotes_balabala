@@ -1,0 +1,14 @@
+olsr 支持对包进行分组
+对于 hello 和 tc 包 有缓存队列 
+mid 包则没有内部缓存
+hna 包队列里注释这样写的 <b> NB! Not internal packetformat!</b>
+四个函数签名
+bool queue_hello(struct hello_message *message, struct interface *ifp);
+bool queue_tc(struct tc_message *message, struct interface *ifp);
+bool queue_mid(struct interface *ifp);
+bool queue_hna(struct interface *ifp);
+build_msg.c 118-2226
+
+
+
+
