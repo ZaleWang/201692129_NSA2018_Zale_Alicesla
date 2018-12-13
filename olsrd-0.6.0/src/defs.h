@@ -61,8 +61,8 @@ extern const char build_date[];
 extern const char build_host[];
 
 #ifndef OLSRD_GLOBAL_CONF_FILE
-#define OLSRD_CONF_FILE_NAME	"olsrd.conf"
-#define OLSRD_GLOBAL_CONF_FILE	"/etc/" OLSRD_CONF_FILE_NAME
+#define OLSRD_CONF_FILE_NAME	"olsrd.conf" // olsrd 配置文件名字
+#define OLSRD_GLOBAL_CONF_FILE	"/etc/" OLSRD_CONF_FILE_NAME // 在/ect 目录下
 #endif
 
 #define	MAXMESSAGESIZE		1500    /* max broadcast size */

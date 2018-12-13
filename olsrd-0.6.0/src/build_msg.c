@@ -52,6 +52,7 @@
 #define OLSR_IPV4_HDRSIZE          12
 #define OLSR_IPV6_HDRSIZE          24
 
+// 一个数据包头部 4 个字节 包含信息未知
 #define OLSR_HELLO_IPV4_HDRSIZE    (OLSR_IPV4_HDRSIZE + 4)
 #define OLSR_HELLO_IPV6_HDRSIZE    (OLSR_IPV6_HDRSIZE + 4)
 #define OLSR_TC_IPV4_HDRSIZE       (OLSR_IPV4_HDRSIZE + 4)
@@ -61,11 +62,13 @@
 #define OLSR_HNA_IPV4_HDRSIZE      OLSR_IPV4_HDRSIZE
 #define OLSR_HNA_IPV6_HDRSIZE      OLSR_IPV6_HDRSIZE
 
+// 仅仅检查一下缓存是否溢出, 如果有则中止程序（会 kill 守护进程）
 static void check_buffspace(int msgsize, int buffsize, const char *type);
 
 /* All these functions share this buffer */
 
 static uint32_t msg_buffer_align[(MAXMESSAGESIZE - OLSR_HEADERSIZE)/sizeof(uint32_t) + 1];
+// 8位指针指向 32位 有点联合体的意思
 static uint8_t *msg_buffer = (uint8_t *)msg_buffer_align;
 
 static uint32_t send_empty_tc;          /* TC empty message sending */
@@ -111,10 +114,10 @@ get_empty_tc_timer(void)
 {
   return send_empty_tc;
 }
-
+// olsr 支持分组
 /**
  * Generate HELLO packet with the contents of the parameter "message".
- * If this won't fit in one packet, chop it up into several.
+ * If this won't fit in one packet, chop it up into several. 分组
  * Send the packet if the size of the data contained in the output buffer
  * reach maxmessagesize. Can generate an empty HELLO packet if the
  * neighbor table is empty.
@@ -132,14 +135,16 @@ queue_hello(struct hello_message * message, struct interface * ifp)
 {
 #ifdef DEBUG
   OLSR_PRINTF(BMSG_DBGLVL, "Building HELLO on %s\n-------------------\n", ifp->int_name);
+  // DEBUG 状态则在输出接口打印音系
 #endif
-
+  // olsr 协议工作在应用层 选择传输层协议
   switch (olsr_cnf->ip_version) {
   case (AF_INET):
     return serialize_hello4(message, ifp);
   case (AF_INET6):
     return serialize_hello6(message, ifp);
   }
+  // 大概是传输层挂了吧
   return false;
 }
 
@@ -155,7 +160,7 @@ queue_hello(struct hello_message * message, struct interface * ifp)
  *
  *@return nada
  */
-
+// 内容同上
 bool
 queue_tc(struct tc_message * message, struct interface * ifp)
 {
@@ -173,7 +178,7 @@ queue_tc(struct tc_message * message, struct interface * ifp)
 }
 
 /**
- *Build a MID message to the outputbuffer
+ *Build a MID(the interfaces of the selected node  见 README) message to the outputbuffer
  *
  *<b>NO INTERNAL BUFFER</b>
  *@param ifn use this interfaces address as main address
@@ -191,7 +196,7 @@ queue_mid(struct interface * ifp)
   case (AF_INET):
     return serialize_mid4(ifp);
   case (AF_INET6):
-    return serialize_mid6(ifp);
+    return serialize_md6(ifp);
   }
   return false;
 }
@@ -254,7 +259,7 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
   char *haddr;
   int i, j;
   bool first_entry;
-
+  // 边界检查
   if ((!message) || (!ifp) || (olsr_cnf->ip_version != AF_INET))
     return false;
 
@@ -271,11 +276,11 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
   }
   /* Sanity check */
   check_buffspace(curr_size, remainsize, "HELLO");
-
+  // h 代表 hellomessage, 为什么用单个字母!!!!!!!
   h = &m->v4.message.hello;
   hinfo = h->hell_info;
   haddr = (char *)hinfo->neigh_addr;
-
+  // 284-291 都在填写 ip 包头
   /* Fill message header */
   m->v4.ttl = message->ttl;
   m->v4.hopcnt = 0;
@@ -288,7 +293,7 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
   /* Fill HELLO header */
   h->willingness = message->willingness;
   h->htime = reltime_to_me(ifp->hello_etime);
-
+  // hellomsg reserved 字段先置 0
   memset(&h->reserved, 0, sizeof(uint16_t));
 
   /*
@@ -310,7 +315,7 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
         continue;
 
       first_entry = true;
-
+      // 邻接表储存 neighbor
       /* Looping trough neighbors */
       for (nb = message->neighbors; nb != NULL; nb = nb->next) {
         if ((nb->status != i) || (nb->link != j))
@@ -332,6 +337,10 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
          * a group, we must check for an extra
          * 4 bytes
          */
+         //如果outputbuffer中没有足够的空间容纳数据，我们必须发送部分HELLO并在新的HELLO消息
+         //中继续构建其余数据。如果这是组中的第一个邻居，则必须检查额外的4个字节
+         // 解释一下就是 buffer 地方不够用要分片了
+         // 第一个 neighbor 有存储 group 所以要多 4 个字节
         if ((curr_size + olsr_cnf->ipsize + (first_entry ? 4 : 0)) > remainsize) {
           /* Only send partial HELLO if it contains data */
           if (curr_size > OLSR_HELLO_IPV4_HDRSIZE) {
@@ -396,6 +405,7 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
   net_outbuffer_push(ifp, msg_buffer, curr_size);
 
   /* HELLO will always be generated */
+  // 所以返回值是 bool 只是为了判断函数是否完整执行？？
   return true;
 }
 
@@ -408,6 +418,7 @@ serialize_hello4(struct hello_message *message, struct interface *ifp)
  *
  *@return nada
  */
+// 只是 ip 数据包头部字段不同
 
 static bool
 serialize_hello6(struct hello_message *message, struct interface *ifp)

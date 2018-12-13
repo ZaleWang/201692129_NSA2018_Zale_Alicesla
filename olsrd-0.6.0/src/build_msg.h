@@ -1,4 +1,4 @@
-
+// the fucking copyright commnets
 /*
  * The olsr.org Optimized Link-State Routing daemon(olsrd)
  * Copyright (c) 2004, Andreas Tonnesen(andreto@olsr.org)
@@ -38,7 +38,8 @@
  * the copyright holders.
  *
  */
-
+// 大概每个头文件都有 #ifndef 没有 #else
+// 我猜是为了压缩程序大小， 然而编译器优化开到最高这样写还有必要？
 #ifndef _BUILD_MSG_H
 #define _BUILD_MSG_H
 

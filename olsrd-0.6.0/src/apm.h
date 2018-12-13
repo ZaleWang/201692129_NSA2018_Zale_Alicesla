@@ -38,7 +38,8 @@
  * the copyright holders.
  *
  */
-
+// 应用性能优化
+// 次重要
 #ifndef _OLSR_APM
 #define _OLSR_APM
 

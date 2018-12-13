@@ -1,8 +1,7 @@
-// 代码格式化文件
-// the fucking copyright
+"代码格式文件"
 --indent-level2
 --no-space-after-function-call-names
---braces-on-if-line
+--xbraces-on-if-line
 --braces-on-struct-decl-line
 --cuddle-else
 --no-space-after-casts
