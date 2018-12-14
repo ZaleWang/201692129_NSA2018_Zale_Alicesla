@@ -4,7 +4,7 @@ by Sven-Ola Tuecke <sven-ola-aet-gmx.de>
 ---------------------------------------------------------------------
 
 This plugin listens to all recevice UDP packets and maintains an
-internal list of MAC addresses extracted from these. By hitchhiking
+
 the set-route-function, the kernel ARP cache will be refreshed from
 this list if a direct-neighbour host route is configured. Result:
 no more ARP lookups if you use a larger routing chain - e.g. fetch

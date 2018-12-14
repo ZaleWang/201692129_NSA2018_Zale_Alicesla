@@ -4,7 +4,8 @@
  *  Created on: 11.01.2010
  *      Author: henning
  */
-
+ // duplicate 中文 复制 emmm
+ // 这对代码文件没有 copyright hhhh
 #include "common/list.h"
 #include "defs.h"
 #include "ipcalc.h"

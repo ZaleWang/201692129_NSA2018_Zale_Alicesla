@@ -1,5 +1,5 @@
 olsr 支持对包进行分组
-对于 hello 和 tc 包 有缓存队列 
+对于 hello 和 tc 包 有缓存队列
 mid 包则没有内部缓存
 hna 包队列里注释这样写的 <b> NB! Not internal packetformat!</b>
 四个函数签名
@@ -9,6 +9,28 @@ bool queue_mid(struct interface *ifp);
 bool queue_hna(struct interface *ifp);
 build_msg.c 118-2226
 
+在 olsr 中存在的链表是双向链表
+duplicate_hanlder.h 里有一个 duplicate_hanlder 结构体
+声明如下
+struct duplicate_handler{
+	struct list_node node;
 
+	void (*originator_collision) (uint8_t msgType);
+	void (*hna_collision)(union olsr_ip_addr *hna, union olsr_ip_addr *orig);
+	void (*mid_collision)(union olsr_ip_addr *mid, union olsr_ip_addr *orig);
+	};
+(好像有丶复杂 void 字段作用一会儿再查一查吧)
+(kao 这就是一个函数指针)
 
-
+声明在 duplicate_set.h 中的结构体
+struct dup_entry {
+  struct avl_node avl;
+  union olsr_ip_addr ip;
+  uint16_t seqnr;
+  uint16_t too_low_counter;
+  uint32_t array;
+  uint32_t valid_until;
+};
+duplicate_set.c 里第 114 行开始的函数 判断收到的 message 是不是 duplicate 
+签名如下  
+int olsr_message_is_duplicate(union olsr_message *m);

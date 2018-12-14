@@ -48,7 +48,7 @@
 #include "mantissa.h"
 
 static void olsr_cleanup_duplicate_entry(void *unused);
-
+// avl_tree 平衡搜索树
 struct avl_tree duplicate_set;
 struct timer_entry *duplicate_cleanup_timer;
 

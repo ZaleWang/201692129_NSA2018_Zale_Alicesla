@@ -42,10 +42,11 @@
 // 我猜是为了压缩程序大小， 然而编译器优化开到最高这样写还有必要？
 #ifndef _BUILD_MSG_H
 #define _BUILD_MSG_H
-
+// 初始化构建 olsr 网络
 #include "packet.h"
 #include "olsr_protocol.h"
 #include <time.h>               /* For clock_t */
+
 
 void set_empty_tc_timer(uint32_t);
 

@@ -38,7 +38,7 @@
  * the copyright holders.
  *
  */
-
+// 总结一下就是一堆通用底层函数 甚至有 #define MAX(x,y)	((x) > (y) ? (x) : (y))
 #ifndef _OLSR_DEFS
 #define _OLSR_DEFS
 
@@ -125,7 +125,9 @@ extern FILE *debug_handle;
  * BSD/Solaris strlcpy()/strlcat() differ in implementation, while
  * the BSD compiler prints out a warning if you use plain strcpy().
  */
-
+// 加入边界检查的 strncpy 函数
+// char *strncpy(char *dest, const char *src,int size_t n);
+// strscpy 的 size大小包括 结束符 即 strscpy(a,"123",3) 结果 a 为 "12"
 static INLINE char *
 strscpy(char *dest, const char *src, size_t size)
 {
@@ -138,6 +140,8 @@ strscpy(char *dest, const char *src, size_t size)
 #endif
   if (NULL != dest && NULL != src) {
     /* src does not need to be null terminated */
+    // 在 dest 的 size 处设置一个结束符
+    // 防止 size 过大
     if (0 < size--)
       while (l < size && 0 != src[l])
         l++;
@@ -158,7 +162,8 @@ strscat(char *dest, const char *src, size_t size)
  */
 
 /* First "argument" is NOT a pointer! */
-
+// 双向链表 在 pre 后加入 new
+// 结果为 pre ←→ new ←→ (原 pre.next)
 #define QUEUE_ELEM(pre, new) do { \
     (pre).next->prev = (new);         \
     (new)->next = (pre).next;         \
@@ -188,10 +193,11 @@ extern bool olsr_win32_end_flag;
 #endif
 
 /*
- *IPC functions
+ *IPC functions (进程间通信)
  *These are moved to a plugin soon
  * soon... duh!
  */
+ // soon.... 坏得很
 
 int ipc_init(void);
 

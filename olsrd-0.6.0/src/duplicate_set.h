@@ -38,7 +38,7 @@
  * the copyright holders.
  *
  */
-
+// 贼长的 copyright 又来了
 #ifndef DUPLICATE_SET_2_H_
 #define DUPLICATE_SET_2_H_
 
