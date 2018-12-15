@@ -38,7 +38,9 @@
  * the copyright holders.
  *
  */
-
+// 没找到 fpm 是什么意思， 通篇把 fpm 当成一个类型
+// 定义了一些基本的运算(关于 fpm 的)
+// 乘除法比较特殊 再时间看看吧
 #ifndef _FPM_H
 #define _FPM_H
 

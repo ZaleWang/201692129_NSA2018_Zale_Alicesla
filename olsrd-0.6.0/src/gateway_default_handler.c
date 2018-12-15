@@ -15,7 +15,7 @@
 
 #include "assert.h"
 
-#ifdef LINUX_NETLINK_ROUTING
+#ifdef LINUX_NETLINK_ROUTING // 这个 ifdef 作用域至文件结束
 static uint32_t gw_def_nodecount, gw_def_stablecount;
 static bool gw_def_finished_ipv4, gw_def_finished_ipv6;
 
@@ -44,6 +44,7 @@ static void gw_default_choose_gateway(void) {
   struct gateway_entry *gw;
   bool dual;
 
+  // 初始为最大值
   cost_ipv4 = ROUTE_COST_BROKEN;
   cost_ipv6 = ROUTE_COST_BROKEN;
 
@@ -73,6 +74,7 @@ static void gw_default_choose_gateway(void) {
   if (inet_ipv4) {
     olsr_set_inet_gateway(&inet_ipv4->originator, true, dual, false);
   }
+  // 如果有 ipv6 网关 且与 ipv4 网关不是同一个
   if (inet_ipv6 && !dual) {
     olsr_set_inet_gateway(&inet_ipv6->originator, false, true, false);
   }
@@ -84,9 +86,10 @@ static void gw_default_choose_gateway(void) {
   }
 }
 
-/* timer for laze gateway selection */
+/* timer for laze gateway selection */// 函数内部有点乱
 static void gw_default_timer(void *unused __attribute__ ((unused))) {
   /* accept a 10% increase without trigger a stablecount reset */
+  // tc_tree 大概是 tc_set.h 中的全局变量
   if (tc_tree.count * 10 <= gw_def_nodecount * 11) {
     gw_def_nodecount = tc_tree.count;
   }
@@ -156,6 +159,7 @@ static void gw_default_choosegw_handler(bool ipv4, bool ipv6) {
 
 /**
  * initialization of default gateway handler
+ * 各种统计量置零 然后设置一个 default_handler
  */
 void olsr_gw_default_init(void) {
   /* initialize values */

@@ -7,7 +7,7 @@
 
 #ifndef GATEWAY_DEFAULT_HANDLER_H_
 #define GATEWAY_DEFAULT_HANDLER_H_
-
+// 所以不对 WIN32 平台设置 gateway_default_handler ?
 #ifndef WIN32
 #include "gateway.h"
 

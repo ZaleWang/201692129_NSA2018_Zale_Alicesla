@@ -62,7 +62,7 @@ static char pulsedata[] = { '\\', '|', '/', '-' };
 
 #define PULSE_MAX 4
 static uint8_t pulse_state = 0;
-
+// 生成各种包的一级调用
 void
 generate_hello(void *p)
 {

@@ -42,7 +42,7 @@
 #include "olsr_protocol.h"
 #include "hashing.h"
 #include "defs.h"
-
+// 计算散列值 安全相关
 /*
  * Taken from lookup2.c by Bob Jenkins.  (http://burtleburtle.net/bob/c/lookup2.c).
  * --------------------------------------------------------------------

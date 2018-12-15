@@ -31,6 +31,22 @@ struct dup_entry {
   uint32_t array;
   uint32_t valid_until;
 };
-duplicate_set.c 里第 114 行开始的函数 判断收到的 message 是不是 duplicate 
-签名如下  
+duplicate_set.c 里第 114 行开始的函数 判断收到的 message 是不是 duplicate
+签名如下
 int olsr_message_is_duplicate(union olsr_message *m);
+
+tc_set.h 中全局变量 tc_tree
+
+gateway.c 和 gateway.h 两个文件应该处于核心位置 以后再看
+
+一级生成各种数据包的函数在 generate_msg
+签名：
+void generate_hello(void *);
+
+void generate_mid(void *);
+
+void generate_hna(void *);
+
+void generate_tc(void *);
+
+void generate_stdout_pulse(void *);
