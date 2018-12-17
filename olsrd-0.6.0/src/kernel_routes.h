@@ -56,7 +56,7 @@ int olsr_ioctl_del_route6(const struct rt_entry *);
 #ifdef LINUX_NETLINK_ROUTING
 int rtnetlink_register_socket(int);
 #endif
-
+// 吐槽一下 在网上搜  NIIT 清一色的 印度国家信息学院 三哥🐂🍺
 void olsr_os_niit_4to6_route(const struct olsr_ip_prefix *dst_v4, bool set);
 void olsr_os_niit_6to4_route(const struct olsr_ip_prefix *dst_v6, bool set);
 void olsr_os_inetgw_tunnel_route(uint32_t if_idx, bool ipv4, bool set);

@@ -45,7 +45,7 @@
  *for the OLSRD - GUI front-end
  *
  */
-
+// 进程间通信
 #ifndef _OLSR_IPC
 #define _OLSR_IPC
 

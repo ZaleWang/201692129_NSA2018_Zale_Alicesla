@@ -45,7 +45,7 @@ deserialize_gw_speed(uint8_t value) {
   uint32_t speed, exp;
 
   speed = (value >> 3)+1;
-  exp = value & 7;
+  exp = value & 7; //0000111
   while (exp-- > 0) {
     speed *= 10;
   }

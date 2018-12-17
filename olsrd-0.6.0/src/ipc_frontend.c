@@ -72,7 +72,7 @@ static int ipc_active = false;
 static int ipc_send_all_routes(int fd);
 
 static int ipc_send_net_info(int fd);
-
+// bind accpet 等通信准备函数
 /**
  *Create the socket to use for IPC to the
  *GUI front-end
@@ -143,13 +143,13 @@ ipc_accept(int fd, void *data __attribute__ ((unused)), unsigned int flags __att
   if ((ipc_conn = accept(fd, (struct sockaddr *)&pin, &addrlen)) == -1) {
     perror("IPC accept");
     olsr_exit("IPC accept", EXIT_FAILURE);
-  } else {
+  } else {// 有客户端 socket 连接
     OLSR_PRINTF(1, "Front end connected\n");
     addr = inet_ntoa(pin.sin_addr);
     if (ipc_check_allowed_ip((union olsr_ip_addr *)&pin.sin_addr.s_addr)) {
       ipc_active = true;
       ipc_send_net_info(ipc_conn);
-      ipc_send_all_routes(ipc_conn);
+      ipc_send_all_routes(ipc_conn);  //对该连接发送所有路由
       OLSR_PRINTF(1, "Connection from %s\n", addr);
     } else {
       OLSR_PRINTF(1, "Front end-connection from foregin host(%s) not allowed!\n", addr);
@@ -159,19 +159,19 @@ ipc_accept(int fd, void *data __attribute__ ((unused)), unsigned int flags __att
   }
 
 }
-
+// 上面两个函数跟原生 bind accept 那套好像没什么区别，主要多了设置一个 sockopt
 bool
 ipc_check_allowed_ip(const union olsr_ip_addr *addr)
 {
   struct ip_prefix_list *ipcn;
-
+  // 回环地址， 发送给本机当然支持
   if (addr->v4.s_addr == ntohl(INADDR_LOOPBACK)) {
     return true;
   }
 
   /* check nets */
   for (ipcn = olsr_cnf->ipc_nets; ipcn != NULL; ipcn = ipcn->next) {
-    if (ip_in_net(addr, &ipcn->net)) {
+    if (ip_in_net(addr, &ipcn->net)) {  //检查网络中是否持有该 ip
       return true;
     }
   }
@@ -182,7 +182,7 @@ ipc_check_allowed_ip(const union olsr_ip_addr *addr)
 #if 0
 
 /**
- *Read input from the IPC socket. Not in use.
+ *Read input from the IPC socket. Not in use.   // 吐槽一下 not in use 为什么还留着这个代码
  *
  *@todo for future use
  *@param sock the IPC socket

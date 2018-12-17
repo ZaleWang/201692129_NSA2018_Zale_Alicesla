@@ -1,3 +1,4 @@
+未解之谜 lq niit 什么意思
 olsr 支持对包进行分组
 对于 hello 和 tc 包 有缓存队列
 mid 包则没有内部缓存
@@ -50,3 +51,44 @@ void generate_hna(void *);
 void generate_tc(void *);
 
 void generate_stdout_pulse(void *);
+
+
+hna.h 中声明的有关 hna 数据包的两个结构体
+
+/* hna_netmask declared in packet.h */
+
+struct hna_net {
+  struct olsr_ip_prefix hna_prefix;
+  struct timer_entry *hna_net_timer;
+  struct hna_entry *hna_gw;            /* backpointer to the owning HNA entry */
+  struct hna_net *next;
+  struct hna_net *prev;
+};
+
+struct hna_entry {
+  union olsr_ip_addr A_gateway_addr;
+  struct hna_net networks;
+  struct hna_entry *next;
+  struct hna_entry *prev;
+};
+
+hna.c 中两个比较有意义的函数
+
+static bool olsr_delete_hna_net_entry(struct hna_net *net_to_delete);
+int olsr_init_hna_set(void);
+
+hysteresis 两个文件内函数有点复杂， 关于迟滞的。 等对整个系统有了进一步了解再看。
+
+interfaces.h 和 interfaces.c 有对物理接口的描述 以及参与 olsr 接口的 CURD 函数
+
+olsrd 使用 1212 port 进行进程间通信
+
+ipcalc 是 ip 各种地址等各种转换
+
+link_set 描述连接 划重点 最后详细看 *****
+
+lq_mpr.h 和 lq_mpr.c 就一个函数 void olsr_calculate_lq_mpr(void); 但是目前找不到 lq 什么意思
+
+lq_packet 包含数据包，包头等格式的声明
+以及 hello 等数据包的 create, serialize, output 等
+但是后面的 packet 文件有相似定义 所以 lq 啥意思

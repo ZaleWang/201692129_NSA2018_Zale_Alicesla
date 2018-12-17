@@ -41,7 +41,7 @@
 
 #ifndef _OLSR_LQ_MPR
 #define _OLSR_LQ_MPR
-
+// 就一个函数声明？？？！！
 void olsr_calculate_lq_mpr(void);
 
 #endif

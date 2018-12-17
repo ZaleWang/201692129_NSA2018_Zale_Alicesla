@@ -60,14 +60,14 @@ struct hna_net {
 };
 
 #define OLSR_HNA_NET_JITTER 5   /* percent */
-
+// hna 数据包
 struct hna_entry {
-  union olsr_ip_addr A_gateway_addr;
+  union olsr_ip_addr A_gateway_addr; // ip 地址
   struct hna_net networks;
-  struct hna_entry *next;
+  struct hna_entry *next; // 双向链表
   struct hna_entry *prev;
 };
-
+// 好像只便利了一遍 没有具体操作？？？
 #define OLSR_FOR_ALL_HNA_ENTRIES(hna) \
 { \
   int _idx; \

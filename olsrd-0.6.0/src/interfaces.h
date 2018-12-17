@@ -78,7 +78,7 @@
 #define WEIGHT_ETHERNET_1GBP    2       /* Ethernet 1Gb+        */
 #define WEIGHT_ETHERNET_1GB     4       /* Ethernet 1Gb         */
 #define WEIGHT_ETHERNET_100MB   8       /* Ethernet 100Mb       */
-#define WEIGHT_ETHERNET_10MB    16      /* Ethernet 10Mb        */
+#define WEIGHT_ETHERNET_10MB    16      /* Ethernet 10Mb        */ // 看注释这个是对应物理层的 百兆、千兆接口
 #define WEIGHT_ETHERNET_DEFAULT 32      /* Ethernet unknown rate */
 #define WEIGHT_WLAN_HIGH        64      /* >54Mb WLAN           */
 #define WEIGHT_WLAN_54MB        128     /* 54Mb 802.11g         */
@@ -116,6 +116,7 @@ struct olsr_netbuf {
  *A struct containing all necessary information about each
  *interface participating in the OLSRD routing
  */
+ // 看起来更接近对物理层描述 无疑了
 struct interface {
   /* IP version 4 */
   struct sockaddr_in int_addr;         /* address */
@@ -216,7 +217,7 @@ int olsr_add_ifchange_handler(void (*f) (int if_index, struct interface *, enum 
 int olsr_remove_ifchange_handler(void (*f) (int if_index, struct interface *, enum olsr_ifchg_flag));
 
 void olsr_remove_interface(struct olsr_if *);
-
+// 大量 cookie 的全局变量
 extern struct olsr_cookie_info *interface_poll_timer_cookie;
 extern struct olsr_cookie_info *hello_gen_timer_cookie;
 extern struct olsr_cookie_info *tc_gen_timer_cookie;

@@ -43,7 +43,8 @@
  * Platform independent - the implementations
  * reside in OS/ifnet.c(e.g. linux/ifnet.c)
  */
-
+// interface network
+// 检测报文是否变化，设立标志变量等函数
 #ifndef _OLSR_IFNET
 #define _OLSR_IFNET
 
