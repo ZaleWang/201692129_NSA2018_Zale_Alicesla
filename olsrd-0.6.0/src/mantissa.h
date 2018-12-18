@@ -41,7 +41,7 @@
 
 #ifndef _OLSR_MANTISSA
 #define _OLSR_MANTISSA
-
+// 相对时间转换 
 #include "olsr_types.h"
 
 /* olsr_reltime is a relative timestamp measured in microseconds */

@@ -38,6 +38,7 @@
  * the copyright holders.
  *
  */
+ // copyright 比正文长系列
 
 #ifndef _OLSR_MISC_H
 #define _OLSR_MISC_H

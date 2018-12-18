@@ -1,8 +1,14 @@
+the multi-point relays of
+the selected node (MPR), the interfaces of the selected node (MID),
+and the non-OLSR networks accessible via the selected node (HNA).
+
+
 未解之谜 lq niit 什么意思
 olsr 支持对包进行分组
 对于 hello 和 tc 包 有缓存队列
 mid 包则没有内部缓存
 hna 包队列里注释这样写的 <b> NB! Not internal packetformat!</b>
+
 四个函数签名
 bool queue_hello(struct hello_message *message, struct interface *ifp);
 bool queue_tc(struct tc_message *message, struct interface *ifp);
@@ -92,3 +98,31 @@ lq_mpr.h 和 lq_mpr.c 就一个函数 void olsr_calculate_lq_mpr(void); 但是�
 lq_packet 包含数据包，包头等格式的声明
 以及 hello 等数据包的 create, serialize, output 等
 但是后面的 packet 文件有相似定义 所以 lq 啥意思
+
+mantissa 定义了 relativetime 以及传输时间与 relativetime 之间的转换 转换过程注释里很
+清楚
+
+类似以下定义都在 xxx_set.h 中
+struct mid_address {
+  union olsr_ip_addr alias;
+  struct mid_entry *main_entry;
+  struct mid_address *next_alias;
+  uint32_t vtime;
+
+  /* These are for the reverse list */
+  struct mid_address *prev;
+  struct mid_address *next;
+};
+
+/*
+ * Contains the main addr of a node and a list of aliases
+ */
+struct mid_entry {
+  union olsr_ip_addr main_addr;
+  struct mid_address *aliases;
+  struct mid_entry *prev;
+  struct mid_entry *next;
+  struct timer_entry *mid_timer;
+};
+
+看到 mpr.h 今天不想看了 到这把

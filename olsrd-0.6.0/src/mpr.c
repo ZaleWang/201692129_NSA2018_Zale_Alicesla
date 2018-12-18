@@ -51,7 +51,7 @@
 /* Begin:
  * Prototypes for internal functions
  */
-
+// 算上 .h 里声明的两个函数 void olsr_calculate_mpr(void);  void olsr_print_mpr_set(void);
 static uint16_t add_will_always_nodes(void);
 
 static void olsr_optimize_mpr_set(void);

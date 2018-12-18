@@ -84,7 +84,7 @@ increase_local_ansn(void)
 /**
  * Check if we(this node) is selected as a MPR by any
  * neighbors. If the list is empty we are not MPR.
- */
+ */// 这个函数只在 mpr_selector_set.c 和 mpr_selector_set.h 出现 且被 #if 0 包裹
 bool
 olsr_is_mpr(void)
 {
@@ -92,7 +92,7 @@ olsr_is_mpr(void)
 }
 #endif
 
-/**
+/*
  * Wrapper for the timer callback.
  */
 static void
@@ -109,7 +109,7 @@ olsr_expire_mpr_sel_entry(void *context)
 #ifdef DEBUG
   OLSR_PRINTF(1, "MPRS: Timing out %st\n", olsr_ip_to_string(&buf, &mpr_sel->MS_main_addr));
 #endif
-
+  // 删掉了该 mpr_selector
   DEQUEUE_ELEM(mpr_sel);
 
   /* Delete entry */
@@ -145,7 +145,7 @@ olsr_add_mpr_selector(const union olsr_ip_addr *addr, olsr_reltime vtime)
   struct mpr_selector *new_entry;
 
   OLSR_PRINTF(1, "MPRS: adding %s\n", olsr_ip_to_string(&buf, addr));
-
+  // malloc 一个新 entry 将传入的参数设置为它的 field 并加入 mprs_list 队列
   new_entry = olsr_malloc(sizeof(struct mpr_selector), "Add MPR selector");
   /* Fill struct */
   new_entry->MS_main_addr = *addr;

@@ -33,7 +33,7 @@ II.  - BUILDING AND RUNNING OLSRD
      * WINDOWS
      * FREEBSD
      * OSX
-  
+
 
 
 ----------------------------------------------------------------------
@@ -79,7 +79,7 @@ project.
 
 If olsrd is ran without using link-quality routing/MPR selection it is RFC3626
 compliant in that it will inter-operate with other RFC3626 implementations.
-Internally there are a few things that are solved differently that proposed 
+Internally there are a few things that are solved differently that proposed
 in the RFC. Check out the "Conclusions" section of the "Implementing And
 Extending The Optimized Link State routing Protocol" thesis available at
 olsr.org.
@@ -89,33 +89,33 @@ olsr.org.
  * PLUGINS
 ===========
 
-Olsrd supports dynamic loading of plugins (dynamically loaded libraries) for 
+Olsrd supports dynamic loading of plugins (dynamically loaded libraries) for
 functions like generation and processing of private package types, setting
 olsrd configurations in run-time and much more. This design is chosen for
 amongst others, the following reasons:
 
- * No need to change any code in the olsr daemon to add custom packages or 
+ * No need to change any code in the olsr daemon to add custom packages or
    functionality.
- * Users are free to implement olsrd plugins and license them under whatever 
+ * Users are free to implement olsrd plugins and license them under whatever
    terms they like.
- * The plugins can be written in any language that can be compiled as 
+ * The plugins can be written in any language that can be compiled as
    a dynamic library. Linux even allows scripts!
- * No need for people with extended OLSR versions to rely on heavy patching 
+ * No need for people with extended OLSR versions to rely on heavy patching
    to maintain functionality when new olsrd versions are released.
 
-OLSR provides a default forwarding algorithm that allows for forwarding of OLSR 
-messages of unknown types. This is really neat - because it means that even if 
-only a subset of the nodes in the network actually known how to interpret 
-a certain message type - all nodes will forward them according to the MPR 
-pragma. A user may want to use the optimized flooding technique in OLSR to 
-broadcast certain information, routing related or not, to all nodes that knows 
-how to handle this message. Services that needs to broadcast/multicast data can 
-encapsulate data in a private OLSR message type using a olsrd plugin. 
+OLSR provides a default forwarding algorithm that allows for forwarding of OLSR
+messages of unknown types. This is really neat - because it means that even if
+only a subset of the nodes in the network actually known how to interpret
+a certain message type - all nodes will forward them according to the MPR
+pragma. A user may want to use the optimized flooding technique in OLSR to
+broadcast certain information, routing related or not, to all nodes that knows
+how to handle this message. Services that needs to broadcast/multicast data can
+encapsulate data in a private OLSR message type using a olsrd plugin.
 
-The design of the various entities of OLSR allows one to easily add special 
-functionality into most aspects of OLSR. One can both register functions and 
-unregister them with the socket parser, packet parser, scheduler and HNA set etc. 
-This opens up for possibilities like intercepting current operation and replacing 
+The design of the various entities of OLSR allows one to easily add special
+functionality into most aspects of OLSR. One can both register functions and
+unregister them with the socket parser, packet parser, scheduler and HNA set etc.
+This opens up for possibilities like intercepting current operation and replacing
 it with custom actions.
 
   Plugins that are part of this release(can be found in the lib/ directory):
@@ -172,7 +172,7 @@ Future work concentrates on reduction of ressource (ab)use and to make
 it more scalable. Of course additional useful plugins are always
 appreciated.
 
-The current track of development is documented in the OLSR-NG 
+The current track of development is documented in the OLSR-NG
 project: http://olsr.funkfeuer.at
 
 
@@ -184,7 +184,7 @@ project: http://olsr.funkfeuer.at
  * GENERAL INFORMATION
 =======================
 
-Olsrd is implemented in pure C with very few dependencies. Olsrd is 
+Olsrd is implemented in pure C with very few dependencies. Olsrd is
 known to run on various hardware like:
  * x86    - your regular PC
  * PPC    - Macintosh hardware
@@ -254,7 +254,7 @@ LEGEND:   +/+ = compiles/runs
  * GUI FRONTENDS
 =================
 
-A GUI front end for GNU/Linux using GTK is available in the gui/ 
+A GUI front end for GNU/Linux using GTK is available in the gui/
 directory. This implementation is no longer supported, and might
 not work any more. It will be completly removed in a future release.
 
@@ -349,9 +349,9 @@ for details.
  * LINUX
 =========
 
-To build olsrd you need to have all the regular development tools 
+To build olsrd you need to have all the regular development tools
 installed. This includes gcc, make, glibc, makedep etc.
-To install to a directory different from /(/etc, /usr/bin) use 
+To install to a directory different from /(/etc, /usr/bin) use
 DESTDIR=targetdir. To use other compilers set CC=yourcompiler.
 
 To build:
@@ -363,16 +363,16 @@ To delete object files run:
 Optionally, to clean all generated files:
  make uberclean
 
-Before running olsrd you must edit the default configuration file 
-/etc/olsrd.conf adding at least what interfaces olsrd is to run on. 
-Options in the config file can also be overridden by command line 
+Before running olsrd you must edit the default configuration file
+/etc/olsrd.conf adding at least what interfaces olsrd is to run on.
+Options in the config file can also be overridden by command line
 options. See the manual pages olsrd(8) and olsrd.conf(5) for details.
-The binary is named 'olsrd' and is installed in (PREFIX)/usr/sbin. 
+The binary is named 'olsrd' and is installed in (PREFIX)/usr/sbin.
 You must have root privileges to run olsrd!
 To run olsrd just type:
 olsrd
 
-If debug level is set to 0 olsrd will detach and run in the background, 
+If debug level is set to 0 olsrd will detach and run in the background,
 if not it will keep running in your shell.
 
 ===========
@@ -448,9 +448,9 @@ directory, e.g. "C:\WINDOWS\olsrd.conf".
 =========================
 
 The FreeBSD port should be relativley stable at this point.
-The OpenBSD and NetBSD versions are pretty much untested. They have 
-not been extensively tested beyond "doesn't core dump and it looks 
-like it adds routes". In order to build it, you need GNU make. Then 
+The OpenBSD and NetBSD versions are pretty much untested. They have
+not been extensively tested beyond "doesn't core dump and it looks
+like it adds routes". In order to build it, you need GNU make. Then
 use:
 
   gmake
@@ -470,5 +470,3 @@ the Linux section for details.
 The OS X port is a direct descendant of the FreeBSD port. So, the same
 limitations with respect to testing and maturity apply. Building and
 installing works in the same was as on FreeBSD.
-
-
